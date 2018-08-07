@@ -1,0 +1,9 @@
+Query Design Analysis notes
+
+All four SQL statements SELECT, INSERT, UPDATE and UPDATE use database locks to isolate their work from tha to other SQL statements.
+This add performance overhead.
+If all queries are reads, consider :
+1. Reducing lock granularity but using PaGLOCK hint in query
+2. Set the database to Read only
+3. Place specific tables on a filegropu and set as READONLY
+4. Prevent SELECT statements from requesting locks using NOLOCK
