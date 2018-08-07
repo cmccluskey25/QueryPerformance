@@ -1,0 +1,2 @@
+# QueryPerformance
+Query Performance notes
