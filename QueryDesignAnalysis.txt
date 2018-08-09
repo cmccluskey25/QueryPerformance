@@ -1,5 +1,10 @@
 Query Design Analysis notes
 
+IsNull clause can change query plan if need it to include row. Making columns non null or have filterd index on nulls helps with this
+Like '%L' rather than substring(  ,1,1)
+IN - non sargable.  Does use indexes but can result in multiple scans
+Local vars used in WHERE can cause insufficient queries, i.e. assume default statistics of 3% when used with equality
+
 All four SQL statements SELECT, INSERT, UPDATE and UPDATE use database locks to isolate their work from tha to other SQL statements.
 This add performance overhead.
 If all queries are reads, consider :
