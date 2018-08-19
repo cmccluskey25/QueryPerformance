@@ -1,5 +1,7 @@
 Blocking notes
 
+The Isolation property which is also used to ensure atomicity and consistency is the main cause of blocking.
+
 -- Atomocity
 
 By default SQL Server default policy is not to roll back a unit of work, e.g. series of statements within a transaction.
@@ -9,16 +11,30 @@ Change default behaviour by either using
 
 or wrapping within BEGIN TRY and using a BEGIN CATCH to do a explicit ROLLBACK
 
-To enable this rollback, SQL Server must have exclusine rights on the resources.  This can cause Blocking.
+To enable this rollback, SQL Server must have exclusine rights on the resources.  Makes it isolated.  This can cause Blocking.
 
 --Consistency
-All dependent objects,e.g. indexes, are also updated.  Due to Atomocity, this can also cause blocking.
+All dependent objects,e.g. indexes,pages, are also updated.  Due to Atomocity, this can also cause blocking.
 
 -- Isolation
 
 The isolation requirement of a transaction can block access to resources, another can't update if I am updating.  
 
 Multii user environments. The degree of isolation required by a transaction can vary.
+
+Implemented using database locks.
+
+Various locks granuarities for various resources.  The various levels affect concurrency.
+
+	Row
+	Key			Row lock within an clustered index
+	Page			Increases performance but can hurt concurrency by blocking
+	Extent			Group of 8 continuous pages
+	Heap or B Tree
+	Table
+	Database
+
+
 
 -- Durability
 Completed transactions should be applied to database resources even if power fails,i.e. if written to transaction log and 
