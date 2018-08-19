@@ -1,0 +1,28 @@
+Blocking notes
+
+-- Atomocity
+
+By default SQL Server default policy is not to roll back a unit of work, e.g. series of statements within a transaction.
+
+Change default behaviour by either using 
+	SET XACT_ABORT_ON which will automatically rollback unit of work/transaction when the transaction fails
+
+or wrapping within BEGIN TRY and using a BEGIN CATCH to do a explicit ROLLBACK
+
+To enable this rollback, SQL Server must have exclusine rights on the resources.  This can cause Blocking.
+
+--Consistency
+All dependent objects,e.g. indexes, are also updated.  Due to Atomocity, this can also cause blocking.
+
+-- Isolation
+
+The isolation requirement of a transaction can block access to resources, another can't update if I am updating.  
+
+Multii user environments. The degree of isolation required by a transaction can vary.
+
+-- Durability
+Completed transactions should be applied to database resources even if power fails,i.e. if written to transaction log and 
+not yet applied to database resources, restart should do a roll forward to apply them.
+
+Doesn't directly create blocking, but SQL Server must store pre and post images of the data under modification
+to the transaction log to enable this and this increases the time required for the transaction, making blocking longer.
